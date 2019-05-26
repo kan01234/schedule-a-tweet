@@ -29,3 +29,5 @@ HELP.md
 .vscode/
 
 .DS_Store
+upload-dir
+*.p12
