@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 128KB
+      max-request-size: 128KB
+
+server:
+  port: 8443
+  ssl:
+    key-store: keystore.p12
+    key-store-password: password
+    keyStoreType: PKCS12
+    keyAlias: tomcat
+
+mongodb:
+  db: tweet-${spring.profiles.active}
+  host: localhost
+  port: 27017
+  auth:
+    username: user
+    password: pass
+    db: tweet-${spring.profiles.active}
+
+com:
+  dotterbear:
+    file:
+      root-dir: upload-dir
+      file-name-format: yyyy-MM-dd'T'hh:mm:ss.SSS'Z'
