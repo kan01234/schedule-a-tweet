@@ -7,6 +7,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class ScheduledTweet {
 
+  public final static String INIT = "I";
+
+  public final static String POSTING = "P";
+
+  public final static String DONE = "D";
+
   @Id
   private String id;
 
@@ -23,6 +29,7 @@ public class ScheduledTweet {
   private Date amendTIme;
 
   public ScheduledTweet() {
+    tweetStatus = INIT;
   }
 
   public ScheduledTweet(String tweetText, Date scheduledTime) {
