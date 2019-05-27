@@ -27,6 +27,13 @@ mongodb:
 
 com:
   dotterbear:
+    twitter:
+      consumer:
+        key: ENC(YXga7pUcXl3vYtbwqz+pSaVayDc+mg2NOM4ZqZL0pYNZ7osEHSKobA==)
+        secret: ENC(8covZl2NQkO2uFG5FrPEhQkT0UVGEscq6WY11W2RSstic5l/+PLvV9JYIEA1d7l+1wxmBvT8+Et0V0iMkbcacw==)
+      access:
+        token: ENC(acDrl5sLRV2srARF2szVOt8dvvvRHRxmKBYZr9dD/qQl3i6WEuF7suOoIDAlUBO05GYpguKCszzDhT3LLmyUww==)
+        secret: ENC(Imv8SZROkJLNKJttXl7rlvhExD4V+YlLnbQa3yBEYAsbTknRbXpdXv453InsjztIlSZhOZKudBk=)
     format:
       request:
         tweet-date: "yyyy-MM-dd'T'HH:mmX"
