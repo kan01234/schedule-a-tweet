@@ -1,25 +1,40 @@
 <html xmlns:th="https://www.thymeleaf.org">
+<head>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+</head>
 <body>
 
-	<div th:if="${message}">
-		<h2 th:text="${message}"/>
-	</div>
+	<div class="container">
 
-	<div>
-		<form method="POST" enctype="multipart/form-data" action="/">
-			<table>
-				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-			</table>
-		</form>
-	</div>
+		<div th:if="${message}">
+			<h2 th:text="${message}" />
+		</div>
 
-	<div>
-		<ul>
-			<li th:each="file : ${files}">
-				<a th:href="files/${file.fileName}" th:text="${file.fileName}" />
-			</li>
-		</ul>
+		<div>
+			<form method="POST" enctype="multipart/form-data" action="/">
+				<table>
+					<tr>
+						<td>File to upload:</td>
+						<td><input type="file" name="file" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="submit" value="Upload" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	
+		<div>
+			<ul>
+				<li th:each="file : ${files}"><a
+					th:href="'files/' + ${file.fileName}" th:text="${file.fileName}" /></li>
+			</ul>
+		</div>
+
 	</div>
 
 </body>
