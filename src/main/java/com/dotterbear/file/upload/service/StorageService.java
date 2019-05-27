@@ -2,6 +2,7 @@ package com.dotterbear.file.upload.service;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
+import com.dotterbear.file.upload.db.model.UploadFile;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
@@ -9,7 +10,7 @@ public interface StorageService {
 
   void init();
 
-  void store(MultipartFile file);
+  UploadFile store(MultipartFile file);
 
   Stream<Path> loadAll();
 

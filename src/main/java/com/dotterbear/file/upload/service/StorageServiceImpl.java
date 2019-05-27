@@ -46,7 +46,7 @@ public class StorageServiceImpl implements StorageService {
   }
 
   @Override
-  public void store(MultipartFile file) {
+  public UploadFile store(MultipartFile file) {
     String fileName = StringUtils.cleanPath(file.getOriginalFilename());
     try {
       if (file.isEmpty()) {
@@ -58,13 +58,13 @@ public class StorageServiceImpl implements StorageService {
             "Cannot store file with relative path outside current directory " + fileName);
       }
       try (InputStream inputStream = file.getInputStream()) {
-        uploadFileService.save(new UploadFile(fileName));
         Files.copy(inputStream, this.rootLocation.resolve(fileName),
             StandardCopyOption.REPLACE_EXISTING);
       }
     } catch (IOException e) {
       throw new StorageException("Failed to store file " + fileName, e);
     }
+    return uploadFileService.save(new UploadFile(fileName));
   }
 
   @Override

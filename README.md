@@ -1,7 +1,8 @@
 # Schedule a Tweet
 
 ### TODO
-- [ ] Accept upload image
+- [x] Accept upload image
+- [ ] add form validation
 - [ ] Call Twitter APIs
 - [ ] Create UI
 - [ ] Create Scheduler
