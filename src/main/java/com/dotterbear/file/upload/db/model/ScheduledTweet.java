@@ -29,20 +29,26 @@ public class ScheduledTweet {
   private Date amendTIme;
 
   public ScheduledTweet() {
-    tweetStatus = INIT;
+    init();
   }
 
   public ScheduledTweet(String tweetText, Date scheduledTime) {
     super();
+    init();
     this.tweetText = tweetText;
     this.scheduledTime = scheduledTime;
   }
 
   public ScheduledTweet(String uploadFileId, String tweetText, Date scheduledTime) {
     super();
+    init();
     this.uploadFileId = uploadFileId;
     this.tweetText = tweetText;
     this.scheduledTime = scheduledTime;
+  }
+
+  public void init() {
+    tweetStatus = INIT;
   }
 
   public String getId() {
