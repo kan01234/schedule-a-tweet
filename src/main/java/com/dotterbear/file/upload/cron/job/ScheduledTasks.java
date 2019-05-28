@@ -36,7 +36,7 @@ public class ScheduledTasks {
       try {
         twitterService.postTweet(st);
         st.setTweetStatus(ScheduledTweet.DONE);
-      } catch (TwitterException e) {
+      } catch (Exception e) {
         log.error("fail to post tweet", e);
         st.setTweetStatus(ScheduledTweet.INIT);
       } finally {
