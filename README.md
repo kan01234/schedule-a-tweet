@@ -2,7 +2,11 @@
 
 ### TODO
 - [x] Accept upload image
-- [ ] add form validation
-- [ ] Call Twitter APIs
-- [ ] Create UI
-- [ ] Create Scheduler
+- [x] Call Twitter APIs
+- [x] Add scheduler class
+- [ ] add scheduled tweet page
+- [ ] posted tweet page
+- [ ] call Google vision APIs
+
+#### Testing account
+[@schedule_a](https://twitter.com/schedule_a)
