@@ -8,6 +8,8 @@ spring:
     static-locations: file:src/main/resources/static/
     cache.period: 0
 
+logging.level.org.springframework.web: DEBUG
+
 #server:
 #  port: 8443
 #  ssl:
