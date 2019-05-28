@@ -10,6 +10,7 @@ import com.dotterbear.file.upload.db.model.ScheduledTweet;
 import com.dotterbear.file.upload.db.model.UploadFile;
 import com.dotterbear.file.upload.db.service.UploadFileService;
 import com.dotterbear.file.upload.service.StorageService;
+import twitter4j.Status;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -28,15 +29,19 @@ public class TwitterService {
   @Autowired
   private UploadFileService uploadFileService;
 
-  public void postTweet(ScheduledTweet scheduledTweet) throws TwitterException, IOException {
+  public Status postTweet(ScheduledTweet scheduledTweet) throws TwitterException, IOException {
+    log.debug("postTweet, scheduledTweet: {}", scheduledTweet);
     StatusUpdate statusUpdate = new StatusUpdate(scheduledTweet.getTweetText());
     if (scheduledTweet.getUploadFileId() != null) {
       UploadFile uploadFile = uploadFileService.findById(scheduledTweet.getUploadFileId());
       File media = storageService.loadAsResource(uploadFile.getFileName()).getFile();
       statusUpdate.setMedia(media);
     }
-    twitter.updateStatus(statusUpdate);
-    log.debug("statusUpdate: {}", statusUpdate);
+    Status status = twitter.updateStatus(statusUpdate);
+    log.debug("status: {}", status);
+    scheduledTweet.setTwitterUserId(status.getUser().getId());
+    scheduledTweet.setTwitterStatusId(status.getId());
+    return status;
   }
 
 }

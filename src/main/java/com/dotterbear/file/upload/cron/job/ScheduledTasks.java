@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.dotterbear.file.upload.bus.service.TwitterService;
 import com.dotterbear.file.upload.db.model.ScheduledTweet;
 import com.dotterbear.file.upload.db.service.ScheduledTweetService;
-import twitter4j.TwitterException;
+import twitter4j.Status;
 
 @Component
 public class ScheduledTasks {
@@ -34,7 +34,7 @@ public class ScheduledTasks {
     });
     scheduledTweets.stream().forEach(st -> {
       try {
-        twitterService.postTweet(st);
+        Status status = twitterService.postTweet(st);
         st.setTweetStatus(ScheduledTweet.DONE);
       } catch (Exception e) {
         log.error("fail to post tweet", e);
