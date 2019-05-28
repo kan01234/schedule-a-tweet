@@ -24,6 +24,10 @@ public class ScheduledTweet {
 
   private String tweetStatus;
 
+  private long twitterStatusId;
+
+  private long twitterUserId;
+
   private Date createTime;
 
   private Date amendTIme;
@@ -107,10 +111,27 @@ public class ScheduledTweet {
     this.tweetText = tweetText;
   }
 
+  public long getTwitterStatusId() {
+    return twitterStatusId;
+  }
+
+  public void setTwitterStatusId(long twitterStatusId) {
+    this.twitterStatusId = twitterStatusId;
+  }
+
+  public long getTwitterUserId() {
+    return twitterUserId;
+  }
+
+  public void setTwitterUserId(long twitterUserId) {
+    this.twitterUserId = twitterUserId;
+  }
+
   @Override
   public String toString() {
     return "ScheduledTweet [id=" + id + ", uploadFileId=" + uploadFileId + ", tweetText="
         + tweetText + ", scheduledTime=" + scheduledTime + ", tweetStatus=" + tweetStatus
+        + ", twitterStatusId=" + twitterStatusId + ", twitterUserId=" + twitterUserId
         + ", createTime=" + createTime + ", amendTIme=" + amendTIme + "]";
   }
 
