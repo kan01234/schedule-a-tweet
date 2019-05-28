@@ -8,10 +8,10 @@ import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 @SpringBootApplication
 @EnableEncryptableProperties
 @EnableScheduling
-public class SpringFileUploadApplication {
+public class ScheduleATweetApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(SpringFileUploadApplication.class, args);
+    SpringApplication.run(ScheduleATweetApplication.class, args);
   }
 
 }
