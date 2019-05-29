@@ -35,8 +35,8 @@ public class TweetService {
           .save(new ScheduledTweet(tweetText, dateUtils.parseTweetRequestDate(tweetDatetime)));
     else {
       UploadFile uploadFile = storageService.store(tweetFile);
-      scheduledTweetService.save(new ScheduledTweet(uploadFile.getId(), uploadFile.getFileName(),
-          tweetText, dateUtils.parseTweetRequestDate(tweetDatetime)));
+      scheduledTweetService.save(new ScheduledTweet(uploadFile.getId(), tweetText,
+          dateUtils.parseTweetRequestDate(tweetDatetime)));
     }
     return true;
   }
