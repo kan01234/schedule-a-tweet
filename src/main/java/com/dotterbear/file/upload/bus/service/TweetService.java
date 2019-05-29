@@ -1,6 +1,7 @@
 package com.dotterbear.file.upload.bus.service;
 
 import java.text.ParseException;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,5 +31,9 @@ public class TweetService {
       scheduledTweetService.save(new ScheduledTweet(uploadFile.getId(), tweetText, dateUtils.parseTweetRequestDate(tweetDatetime)));
     }
     return true;
+  }
+
+  public List<ScheduledTweet> findScheduledTweet() {
+    return scheduledTweetService.findAllByTweetStatus(ScheduledTweet.INIT);
   }
 }

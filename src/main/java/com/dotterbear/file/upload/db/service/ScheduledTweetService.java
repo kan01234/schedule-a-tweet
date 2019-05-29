@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -36,6 +38,13 @@ public class ScheduledTweetService {
         date);
     return mongoTemplate.find(new Query(Criteria.where("tweetStatus").is(status)
         .andOperator(Criteria.where("scheduledTime").lte(date))), ScheduledTweet.class);
+  }
+
+  public List<ScheduledTweet> findAllByTweetStatus(String status) {
+    log.debug("findAllByTweetStaus, status: {}", status);
+    Query query = new Query(Criteria.where("tweetStatus").is(status))
+        .with(Sort.by(Direction.ASC, "scheduledTime"));
+    return mongoTemplate.find(query, ScheduledTweet.class);
   }
 
   public ScheduledTweet save(ScheduledTweet scheduledTweet) {

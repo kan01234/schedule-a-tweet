@@ -38,6 +38,7 @@ public class TweetController {
 
    @RequestMapping(value = "/scheduled-tweet", method = RequestMethod.GET)
    public String listScheduledTweet(Model model) {
+     model.addAttribute("tweets", tweetService.findScheduledTweet());
      return "scheduledTweet";
    }
 
