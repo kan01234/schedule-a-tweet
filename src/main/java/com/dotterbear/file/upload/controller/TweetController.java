@@ -37,14 +37,15 @@ public class TweetController {
    @GetMapping("/")
    public String listUploadedFiles(Model model) {
 //   model.addAttribute("files", uploadFileService.findAll("desc", "amendTime"));
+     model.addAttribute("tweets", tweetService.findScheduledTweet());
    return "index";
    }
 
-   @RequestMapping(value = "/scheduled-tweet", method = RequestMethod.GET)
-   public String listScheduledTweet(Model model) {
-     model.addAttribute("tweets", tweetService.findScheduledTweet());
-     return "scheduledTweet";
-   }
+//   @RequestMapping(value = "/scheduled-tweet", method = RequestMethod.GET)
+//   public String listScheduledTweet(Model model) {
+//     model.addAttribute("tweets", tweetService.findScheduledTweet());
+//     return "scheduledTweet";
+//   }
 
   @PostMapping("/add-tweet")
   public String addTweet(@RequestParam("tweetText") String tweetText,

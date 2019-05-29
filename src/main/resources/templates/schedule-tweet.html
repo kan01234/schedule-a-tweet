@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="/css/time-line.css">
+
+<div class="container" th:fragment="scheduledTweet">
+	<h3>Scheduled Tweets</h3>
+	<div class="timeline">
+		<div th:each="tweet : ${tweets}" class="timeline-container">
+			<div class="content">
+				<h3 th:text="${tweet.scheduledTime}" />
+				<p th:text="${tweet.tweetText}" />
+				<img th:if="${tweet.uploadFileId != null}"
+					th:src="${'/images/' + tweet.uploadFileId}" />
+			</div>
+		</div>
+	</div>
+</div>
