@@ -37,7 +37,7 @@ public class TweetController {
    @GetMapping("/")
    public String listUploadedFiles(Model model) {
 //   model.addAttribute("files", uploadFileService.findAll("desc", "amendTime"));
-   return "uploadForm";
+   return "index";
    }
 
    @RequestMapping(value = "/scheduled-tweet", method = RequestMethod.GET)
