@@ -37,7 +37,8 @@ public class TweetController {
    @GetMapping("/")
    public String listUploadedFiles(Model model) {
 //   model.addAttribute("files", uploadFileService.findAll("desc", "amendTime"));
-     model.addAttribute("tweets", tweetService.findScheduledTweet());
+     model.addAttribute("scheduledtweets", tweetService.findScheduledTweets());
+     model.addAttribute("postedTweets", tweetService.findPostedTweets());
    return "index";
    }
 

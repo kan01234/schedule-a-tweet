@@ -41,10 +41,14 @@ public class TweetService {
     return true;
   }
 
-  public List<ScheduledTweet> findScheduledTweet() {
+  public List<ScheduledTweet> findScheduledTweets() {
     return scheduledTweetService.findAllByTweetStatus(ScheduledTweet.INIT);
   }
 
+  public List<ScheduledTweet> findPostedTweets() {
+    return scheduledTweetService.findAllByTweetStatus(ScheduledTweet.DONE);
+  }
+  
   public Resource getUploadImage(String uploadFileId) {
     UploadFile uploadFile = uploadFileService.findById(uploadFileId);
     if (uploadFile == null)

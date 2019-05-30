@@ -3,9 +3,9 @@
 
 	<strong>Scheduled Tweets</strong>
 	<div class="timeline">
-		<div th:each="tweet : ${tweets}" class="timeline-container">
+		<div th:each="tweet : ${scheduledtweets}" class="timeline-container">
 			<div class="content">
-				<h3 th:text="${tweet.scheduledTime}" />
+				<strong th:text="${tweet.scheduledTime}" />
 				<p th:text="${tweet.tweetText}" />
 				<img th:if="${tweet.uploadFileId != null}"
 					th:src="${'/images/' + tweet.uploadFileId}" />
