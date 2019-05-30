@@ -28,26 +28,25 @@
 		</div>
 	</div>
 
-</div>
+	<script>
+		let tweetDatetimePicker, tweetDatetime;
+		$(function() {
+			tweetDatetimePicker = $('#tweetDatetimePicker');
+			tweetDatetime = $('#tweetDatetime');
 
-<script>
-	let tweetDatetimePicker, tweetDatetime;
-	$(function() {
-		tweetDatetimePicker = $('#tweetDatetimePicker');
-		tweetDatetime = $('#tweetDatetime');
+			tweetDatetimePicker.datetimepicker({
+				inline : true,
+				sideBySide : true,
+				minDate : moment()
+			}).on('dp.change', function(event) {
+				displaySelectedDatetime(tweetDatetimePicker, tweetDatetime);
+			});
 
-		tweetDatetimePicker.datetimepicker({
-			inline : true,
-			sideBySide : true,
-			minDate : moment()
-		}).on('dp.change', function(event) {
 			displaySelectedDatetime(tweetDatetimePicker, tweetDatetime);
 		});
-
-		displaySelectedDatetime(tweetDatetimePicker, tweetDatetime);
-	});
-	function displaySelectedDatetime(picker, field) {
-		field.val(picker.data("DateTimePicker").viewDate().format(
-				'YYYY-MM-DDThh:mmZ'));
-	}
-</script>
+		function displaySelectedDatetime(picker, field) {
+			field.val(picker.data("DateTimePicker").viewDate().format(
+					'YYYY-MM-DDThh:mmZ'));
+		}
+	</script>
+</div>
