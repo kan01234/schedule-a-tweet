@@ -30,5 +30,11 @@
 </head>
 <body>
 	<div th:include="tweet-form :: tweetForm"></div>
+	<div class="container">
+		<div class="row">
+			<div th:include="schedule-tweet :: scheduleTweet" class="col-md-6"></div>
+			<div class="col-md-6"></div>
+		</div>
+	</div>
 </body>
 </html>

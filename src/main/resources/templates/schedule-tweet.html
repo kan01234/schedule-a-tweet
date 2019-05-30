@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="/css/time-line.css">
+<div class="container" th:fragment="scheduleTweet">
+	<link rel="stylesheet" href="/css/time-line.css">
 
-<div class="container" th:fragment="scheduledTweet">
-	<h3>Scheduled Tweets</h3>
+	<strong>Scheduled Tweets</strong>
 	<div class="timeline">
 		<div th:each="tweet : ${tweets}" class="timeline-container">
 			<div class="content">
