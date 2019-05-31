@@ -36,8 +36,8 @@ public class ScheduledTweetService {
       Date date) {
     log.debug("findAllByTweetStatusAndscheduledTimeLessThanOrEquals, status: {}, date: {}", status,
         date);
-    return mongoTemplate.find(new Query(Criteria.where("tweetStatus").is(status)
-        .andOperator(Criteria.where("scheduledTime").lte(date))), ScheduledTweet.class);
+    Query query = new Query(Criteria.where("tweetStatus").is(status).and("scheduledTime").lte(date));
+    return mongoTemplate.find(query, ScheduledTweet.class);
   }
 
   public List<ScheduledTweet> findAll(Query query) {

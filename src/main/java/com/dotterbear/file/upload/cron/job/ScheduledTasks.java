@@ -23,7 +23,7 @@ public class ScheduledTasks {
   @Autowired
   private ScheduledTweetService scheduledTweetService;
 
-  @Scheduled(cron = "0 * * * * * ")
+  @Scheduled(cron = "0/10 * * * * * ")
   public void postScheduledTweet() {
     log.debug("postScheduledTweet");
     List<ScheduledTweet> scheduledTweets = scheduledTweetService
