@@ -41,6 +41,7 @@ public class TwitterService {
     log.debug("status: {}", status);
     scheduledTweet.setTwitterUserId(status.getUser().getId());
     scheduledTweet.setTwitterStatusId(status.getId());
+    scheduledTweet.setCreatedAt(status.getCreatedAt());
     return status;
   }
 
