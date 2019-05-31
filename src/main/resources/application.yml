@@ -8,7 +8,9 @@ spring:
     static-locations: file:src/main/resources/static/
     cache.period: 0
 
-logging.level.org.springframework.web: DEBUG
+logging.level:
+  org.springframework.web: DEBUG
+  com.dotterbear: DEBUG
 
 #server:
 #  port: 8443
