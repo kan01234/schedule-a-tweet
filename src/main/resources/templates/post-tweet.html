@@ -1,0 +1,16 @@
+<div class="container" th:fragment="postTweet">
+	<link rel="stylesheet" href="/css/time-line.css">
+
+	<strong>Posted Tweets</strong>
+	<div class="timeline">
+		<div th:each="tweet : ${postedTweets}" class="timeline-container">
+			<div class="content">
+				<strong th:text="${tweet.createdAt}" />
+				<p th:text="${tweet.tweetText}" />
+				<img th:if="${tweet.uploadFileId != null}"
+					th:src="${'/images/' + tweet.uploadFileId}" />
+				<a th:href="${'https://twitter.com/schedule_a/status/' + tweet.twitterStatusId}" th:text="twitter" />
+			</div>
+		</div>
+	</div>
+</div>
