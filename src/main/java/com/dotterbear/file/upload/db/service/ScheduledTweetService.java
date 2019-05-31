@@ -40,15 +40,13 @@ public class ScheduledTweetService {
         .andOperator(Criteria.where("scheduledTime").lte(date))), ScheduledTweet.class);
   }
 
-  public List<ScheduledTweet> findAllByTweetStatus(String status) {
-    log.debug("findAllByTweetStaus, status: {}", status);
-    Query query = new Query(Criteria.where("tweetStatus").is(status))
-        .with(Sort.by(Direction.ASC, "scheduledTime"));
+  public List<ScheduledTweet> findAll(Query query) {
+    log.debug("findAllByTweetStaus, query: {}", query);
     return mongoTemplate.find(query, ScheduledTweet.class);
   }
 
   public ScheduledTweet save(ScheduledTweet scheduledTweet) {
-    log.debug("save, uploadFile: {}", scheduledTweet);
+    log.debug("save, scheduledTweet: {}", scheduledTweet);
     Date now = new Date();
     if (scheduledTweet.getId() == null)
       scheduledTweet.setCreateTime(now);

@@ -4,6 +4,10 @@ import java.text.ParseException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.dotterbear.file.upload.db.model.ScheduledTweet;
@@ -42,13 +46,19 @@ public class TweetService {
   }
 
   public List<ScheduledTweet> findScheduledTweets() {
-    return scheduledTweetService.findAllByTweetStatus(ScheduledTweet.INIT);
+    // TODO make a query builder class
+    return scheduledTweetService
+        .findAll(new Query(Criteria.where("tweetStatus").is(ScheduledTweet.INIT))
+            .with(Sort.by(Direction.ASC, "scheduledTime")));
   }
 
   public List<ScheduledTweet> findPostedTweets() {
-    return scheduledTweetService.findAllByTweetStatus(ScheduledTweet.DONE);
+    // TODO make a query builder class
+    return scheduledTweetService
+        .findAll(new Query(Criteria.where("tweetStatus").is(ScheduledTweet.DONE))
+            .with(Sort.by(Direction.ASC, "createdAt")));
   }
-  
+
   public Resource getUploadImage(String uploadFileId) {
     UploadFile uploadFile = uploadFileService.findById(uploadFileId);
     if (uploadFile == null)
