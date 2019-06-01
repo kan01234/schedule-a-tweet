@@ -146,8 +146,13 @@
 		}
 
 		function createTagEle(tag) {
-			let tagEle = document.createElement('span');
-			return $(tagEle).addClass('badge badge-pill').html(tag)
+			return $('<span>')
+					.addClass('badge badge-pill')
+					.on('click', function(event) {
+						$(event.target).remove();
+					})
+					.html(tag);
 		}
+
 	</script>
 </div>
