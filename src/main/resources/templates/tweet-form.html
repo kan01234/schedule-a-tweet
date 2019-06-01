@@ -128,7 +128,7 @@
 		}
 
 		function addTag(input) {
-			input = input.trim();
+			input = input.replace(/ /g, '');
 			if (!tweetTags.has(input)) {
 				tweetTags.add(input);
 				tweetTagsContainer.append(createTagEle(input));
