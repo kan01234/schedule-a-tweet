@@ -1,6 +1,8 @@
 package com.dotterbear.file.upload.db.model;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -22,7 +24,7 @@ public class ScheduledTweet {
 
   private Date scheduledTime;
 
-  private String tweetStatus;
+  private String tweetStatus = INIT;
 
   private long twitterStatusId;
 
@@ -30,31 +32,26 @@ public class ScheduledTweet {
 
   private Date createdAt;
 
+  private List<String> tags = Collections.emptyList();
+
   private Date createTime;
 
   private Date amendTIme;
 
   public ScheduledTweet() {
-    init();
   }
 
   public ScheduledTweet(String tweetText, Date scheduledTime) {
     super();
-    init();
     this.tweetText = tweetText;
     this.scheduledTime = scheduledTime;
   }
 
   public ScheduledTweet(String uploadFileId, String tweetText, Date scheduledTime) {
     super();
-    init();
     this.uploadFileId = uploadFileId;
     this.tweetText = tweetText;
     this.scheduledTime = scheduledTime;
-  }
-
-  public void init() {
-    tweetStatus = INIT;
   }
 
   public String getId() {
@@ -137,13 +134,21 @@ public class ScheduledTweet {
     this.createdAt = createdAt;
   }
 
+  public List<String> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<String> tags) {
+    this.tags = tags;
+  }
+
   @Override
   public String toString() {
     return "ScheduledTweet [id=" + id + ", uploadFileId=" + uploadFileId + ", tweetText="
         + tweetText + ", scheduledTime=" + scheduledTime + ", tweetStatus=" + tweetStatus
         + ", twitterStatusId=" + twitterStatusId + ", twitterUserId=" + twitterUserId
-        + ", createdAt=" + createdAt + ", createTime=" + createTime + ", amendTIme=" + amendTIme
-        + "]";
+        + ", createdAt=" + createdAt + ", tags=" + tags + ", createTime=" + createTime
+        + ", amendTIme=" + amendTIme + "]";
   }
 
 }

@@ -1,7 +1,9 @@
 package com.dotterbear.file.upload.bus.service;
 
-import java.text.ParseException;
 import java.util.List;
+import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Sort;
@@ -15,10 +17,12 @@ import com.dotterbear.file.upload.db.model.UploadFile;
 import com.dotterbear.file.upload.db.service.ScheduledTweetService;
 import com.dotterbear.file.upload.db.service.UploadFileService;
 import com.dotterbear.file.upload.service.StorageService;
-import com.dotterbear.file.upload.utils.DateUtils;
+import com.google.protobuf.ByteString;
 
 @Service
 public class TweetService {
+
+  private static final Logger log = LoggerFactory.getLogger(TweetService.class);
 
   @Autowired
   private StorageService storageService;
@@ -30,19 +34,26 @@ public class TweetService {
   private UploadFileService uploadFileService;
 
   @Autowired
-  private DateUtils dateUtils;
+  private VisionService visionService;
 
-  public boolean addTweet(String tweetText, MultipartFile tweetFile, String tweetDatetime)
-      throws ParseException {
-    if (tweetFile == null || tweetFile.isEmpty())
-      scheduledTweetService
-          .save(new ScheduledTweet(tweetText, dateUtils.parseTweetRequestDate(tweetDatetime)));
-    else {
-      UploadFile uploadFile = storageService.store(tweetFile);
-      scheduledTweetService.save(new ScheduledTweet(uploadFile.getId(), tweetText,
-          dateUtils.parseTweetRequestDate(tweetDatetime)));
-    }
+  public boolean addTweet(ScheduledTweet scheduledTweet) throws Exception {
+    if (scheduledTweet == null)
+      throw new Exception("scheduledTweet is null");
+    String uploadFileId = scheduledTweet.getUploadFileId();
+    if (uploadFileId != null && uploadFileId.trim().isEmpty())
+      scheduledTweet.setUploadFileId(null);
+    scheduledTweetService.save(scheduledTweet);
     return true;
+  }
+
+  public UploadFile addMedia(MultipartFile multipartFile) throws Exception {
+    if (multipartFile == null || multipartFile.isEmpty())
+      throw new Exception("file is null or empty");
+    UploadFile uploadFile = new UploadFile(storageService.store(multipartFile));
+    uploadFile.setTags(visionService.getWebEntities(ByteString.copyFrom(multipartFile.getBytes()))
+        .stream().map(annotation -> annotation.getDescription()).collect(Collectors.toList()));
+    uploadFileService.save(uploadFile);
+    return uploadFile;
   }
 
   public List<ScheduledTweet> findScheduledTweets() {
@@ -56,7 +67,7 @@ public class TweetService {
     // TODO make a query builder class
     return scheduledTweetService
         .findAll(new Query(Criteria.where("tweetStatus").is(ScheduledTweet.DONE))
-            .with(Sort.by(Direction.ASC, "createdAt")));
+            .with(Sort.by(Direction.DESC, "createdAt")));
   }
 
   public Resource getUploadImage(String uploadFileId) {
@@ -65,4 +76,5 @@ public class TweetService {
       return null;
     return storageService.loadAsResource(uploadFile.getFileName());
   }
+
 }

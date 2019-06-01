@@ -2,6 +2,7 @@ package com.dotterbear.file.upload.bus.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,13 @@ public class TwitterService {
 
   public Status postTweet(ScheduledTweet scheduledTweet) throws TwitterException, IOException {
     log.debug("postTweet, scheduledTweet: {}", scheduledTweet);
-    StatusUpdate statusUpdate = new StatusUpdate(scheduledTweet.getTweetText());
+    StringBuilder sb = new StringBuilder();
+    sb.append(scheduledTweet.getTweetText());
+    if (sb.length() > 0)
+      sb.append("\n");
+    sb.append(String.join(" ",
+        scheduledTweet.getTags().stream().map(tag -> '#' + tag).collect(Collectors.toList())));
+    StatusUpdate statusUpdate = new StatusUpdate(sb.toString());
     if (scheduledTweet.getUploadFileId() != null) {
       UploadFile uploadFile = uploadFileService.findById(scheduledTweet.getUploadFileId());
       File media = storageService.loadAsResource(uploadFile.getFileName()).getFile();

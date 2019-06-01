@@ -9,6 +9,10 @@
 				<p th:text="${tweet.tweetText}" />
 				<img th:if="${tweet.uploadFileId != null}"
 					th:src="${'/images/' + tweet.uploadFileId}" />
+				<div id="suggestedTags" class="tags-container">
+					<span class="badge badge-pill badge-light"
+						th:each="tag : ${tweet.getTags()}" th:text="${tag}" />
+				</div>
 			</div>
 		</div>
 	</div>

@@ -1,6 +1,7 @@
 package com.dotterbear.file.upload.db.model;
 
 import java.util.Date;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,6 +12,8 @@ public class UploadFile {
   private String id;
 
   private String fileName;
+
+  private List<String> tags;
 
   private Date createTime;
 
@@ -52,10 +55,18 @@ public class UploadFile {
     this.amendTIme = amendTIme;
   }
 
+  public List<String> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<String> tags) {
+    this.tags = tags;
+  }
+
   @Override
   public String toString() {
-    return "UploadFile [id=" + id + ", fileName=" + fileName + ", createTime=" + createTime
-        + ", amendTIme=" + amendTIme + "]";
+    return "UploadFile [id=" + id + ", fileName=" + fileName + ", tags=" + tags + ", createTime="
+        + createTime + ", amendTIme=" + amendTIme + "]";
   }
 
 }

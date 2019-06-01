@@ -9,7 +9,12 @@
 				<p th:text="${tweet.tweetText}" />
 				<img th:if="${tweet.uploadFileId != null}"
 					th:src="${'/images/' + tweet.uploadFileId}" />
-				<a th:href="${'https://twitter.com/schedule_a/status/' + tweet.twitterStatusId}" th:text="twitter" />
+				<div class="tags-container">
+					<span class="badge badge-pill badge-light"
+						th:each="tag : ${tweet.getTags()}" th:text="${tag}" />
+				</div>
+				<a th:href="${'https://twitter.com/schedule_a/status/' + tweet.twitterStatusId}"
+					th:text="twitter" />
 			</div>
 		</div>
 	</div>
