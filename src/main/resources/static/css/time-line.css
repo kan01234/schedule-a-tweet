@@ -65,7 +65,15 @@
   border: 4px solid #474e5d;
 }
 
-.content * {
+.content img, .content p {
 	width: 100%;
 	word-break: break-word;
+}
+
+.content .tags-container {
+	margin-top: 1em;
+}
+
+.content .tags-container .badge {
+	cursor: default !important;
 }
