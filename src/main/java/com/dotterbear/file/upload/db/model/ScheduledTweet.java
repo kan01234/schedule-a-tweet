@@ -1,5 +1,6 @@
 package com.dotterbear.file.upload.db.model;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.annotation.Id;
@@ -23,7 +24,7 @@ public class ScheduledTweet {
 
   private Date scheduledTime;
 
-  private String tweetStatus;
+  private String tweetStatus = INIT;
 
   private long twitterStatusId;
 
@@ -31,33 +32,26 @@ public class ScheduledTweet {
 
   private Date createdAt;
 
-  private List<String> tags;
+  private List<String> tags = Collections.emptyList();
 
   private Date createTime;
 
   private Date amendTIme;
 
   public ScheduledTweet() {
-    init();
   }
 
   public ScheduledTweet(String tweetText, Date scheduledTime) {
     super();
-    init();
     this.tweetText = tweetText;
     this.scheduledTime = scheduledTime;
   }
 
   public ScheduledTweet(String uploadFileId, String tweetText, Date scheduledTime) {
     super();
-    init();
     this.uploadFileId = uploadFileId;
     this.tweetText = tweetText;
     this.scheduledTime = scheduledTime;
-  }
-
-  public void init() {
-    tweetStatus = INIT;
   }
 
   public String getId() {

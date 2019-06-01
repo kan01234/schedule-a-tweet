@@ -64,7 +64,7 @@ public class TweetService {
     // TODO make a query builder class
     return scheduledTweetService
         .findAll(new Query(Criteria.where("tweetStatus").is(ScheduledTweet.DONE))
-            .with(Sort.by(Direction.ASC, "createdAt")));
+            .with(Sort.by(Direction.DESC, "createdAt")));
   }
 
   public Resource getUploadImage(String uploadFileId) {
