@@ -4,8 +4,8 @@
 - [x] Accept upload image
 - [x] Call Twitter APIs
 - [x] Add scheduler class
-- [ ] add scheduled tweet page
-- [ ] posted tweet page
+- [x] add scheduled tweet page
+- [x] posted tweet page
 - [ ] call Google vision APIs
 
 #### Testing account
