@@ -29,6 +29,10 @@
 
 		<div class="form-group">
 			<label>Tags</label>
+			<div>
+				<input type="text" id="tagTxt" placeholder="add tag?" >
+				<button id="addTagBtn" type="button" class="btn btn-outline-success">Add</button>
+			</div>
 			<div id="tweetTags" class="tags-container"></div>
 		</div>
 
@@ -78,11 +82,13 @@
 		let tweetDatetimePicker, tweetDatetime;
 		let initDate = /*[[${scheduledTweet.scheduledTime}]]*/'';
 		let tweetTagsContainer, tweetTags = new Set();
+		let tagTxt;
 
 		$(function() {
 			tweetDatetimePicker = $('#tweetDatetimePicker');
 			tweetDatetime = $('#tweetDatetime');
 			tweetTagsContainer = $('#tweetTags');
+			tagTxt = $('#tagTxt');
 
 			tweetDatetimePicker.datetimepicker({
 				inline : true,
@@ -118,6 +124,11 @@
 							.val(tag));
 				}
 				form.submit();
+			});
+
+			$('#addTagBtn').on('click', function(event) {
+				addTag(tagTxt.val());
+				tagTxt.val('');
 			});
 		});
 
