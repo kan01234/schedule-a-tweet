@@ -64,10 +64,6 @@
 						</div>
 					</form>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -96,7 +92,6 @@
 				$('#addMedia #tweetDatetime').val(
 						$('#addTweetForm #tweetDatetime').val());
 			});
-
 		});
 		function displaySelectedDatetime(picker, field) {
 			field.val(picker.data("DateTimePicker").viewDate().format(
