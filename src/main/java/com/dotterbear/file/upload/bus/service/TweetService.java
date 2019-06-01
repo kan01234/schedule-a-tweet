@@ -39,6 +39,9 @@ public class TweetService {
   public boolean addTweet(ScheduledTweet scheduledTweet) throws Exception {
     if (scheduledTweet == null)
       throw new Exception("scheduledTweet is null");
+    String uploadFileId = scheduledTweet.getUploadFileId();
+    if (uploadFileId != null && uploadFileId.trim().isEmpty())
+      scheduledTweet.setUploadFileId(null);
     scheduledTweetService.save(scheduledTweet);
     return true;
   }
