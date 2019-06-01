@@ -1,8 +1,10 @@
 package com.dotterbear.file.upload.db.model;
 
 import java.util.Date;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import com.google.cloud.vision.v1.EntityAnnotation;
 
 @Document
 public class UploadFile {
@@ -11,6 +13,8 @@ public class UploadFile {
   private String id;
 
   private String fileName;
+
+  private List<EntityAnnotation> labels;
 
   private Date createTime;
 
@@ -52,10 +56,18 @@ public class UploadFile {
     this.amendTIme = amendTIme;
   }
 
+  public List<EntityAnnotation> getLabels() {
+    return labels;
+  }
+
+  public void setLabels(List<EntityAnnotation> labels) {
+    this.labels = labels;
+  }
+
   @Override
   public String toString() {
-    return "UploadFile [id=" + id + ", fileName=" + fileName + ", createTime=" + createTime
-        + ", amendTIme=" + amendTIme + "]";
+    return "UploadFile [id=" + id + ", fileName=" + fileName + ", labels=" + labels
+        + ", createTime=" + createTime + ", amendTIme=" + amendTIme + "]";
   }
 
 }

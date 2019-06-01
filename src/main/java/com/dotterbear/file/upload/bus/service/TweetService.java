@@ -1,7 +1,8 @@
 package com.dotterbear.file.upload.bus.service;
 
-import java.text.ParseException;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Sort;
@@ -16,9 +17,12 @@ import com.dotterbear.file.upload.db.service.ScheduledTweetService;
 import com.dotterbear.file.upload.db.service.UploadFileService;
 import com.dotterbear.file.upload.service.StorageService;
 import com.dotterbear.file.upload.utils.DateUtils;
+import com.google.protobuf.ByteString;
 
 @Service
 public class TweetService {
+
+  private static final Logger log = LoggerFactory.getLogger(TweetService.class);
 
   @Autowired
   private StorageService storageService;
@@ -30,15 +34,19 @@ public class TweetService {
   private UploadFileService uploadFileService;
 
   @Autowired
+  private VisionService visionService;
+
+  @Autowired
   private DateUtils dateUtils;
 
   public boolean addTweet(String tweetText, MultipartFile tweetFile, String tweetDatetime)
-      throws ParseException {
+      throws Exception {
     if (tweetFile == null || tweetFile.isEmpty())
       scheduledTweetService
           .save(new ScheduledTweet(tweetText, dateUtils.parseTweetRequestDate(tweetDatetime)));
     else {
       UploadFile uploadFile = storageService.store(tweetFile);
+      uploadFile.setLabels(visionService.getImageLabels(ByteString.copyFrom(tweetFile.getBytes())));
       scheduledTweetService.save(new ScheduledTweet(uploadFile.getId(), tweetText,
           dateUtils.parseTweetRequestDate(tweetDatetime)));
     }

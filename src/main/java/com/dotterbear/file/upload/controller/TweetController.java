@@ -51,7 +51,7 @@ public class TweetController {
   @PostMapping("/add-tweet")
   public String addTweet(@RequestParam("tweetText") String tweetText,
       @RequestParam("tweetFile") MultipartFile tweetFile,
-      @RequestParam("tweetDatetime") String tweetDatetime, RedirectAttributes redirectAttributes) throws ParseException {
+      @RequestParam("tweetDatetime") String tweetDatetime, RedirectAttributes redirectAttributes) throws Exception {
     tweetService.addTweet(tweetText, tweetFile, tweetDatetime);
 //    redirectAttributes.addFlashAttribute("message",
 //        "You successfully uploaded " + tweetFile.getOriginalFilename() + "!");
