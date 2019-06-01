@@ -27,16 +27,12 @@ import com.dotterbear.file.upload.bus.service.TweetService;
 import com.dotterbear.file.upload.db.model.ScheduledTweet;
 import com.dotterbear.file.upload.db.model.UploadFile;
 import com.dotterbear.file.upload.exception.StorageFileNotFoundException;
-import com.dotterbear.file.upload.utils.DateUtils;
 
 @Controller
 public class TweetController {
 
   @Autowired
   private TweetService tweetService;
-
-  @Autowired
-  private DateUtils dateUtils;
 
   @Value("${com.dotterbear.format.request.tweet-date}")
   private String tweetRequestDateFormat;
@@ -51,19 +47,13 @@ public class TweetController {
 
   @GetMapping("/")
   public String listUploadedFiles(Model model) {
-    // model.addAttribute("files", uploadFileService.findAll("desc", "amendTime"));
     model.addAttribute("scheduledtweets", tweetService.findScheduledTweets());
     model.addAttribute("postedTweets", tweetService.findPostedTweets());
-    if (!model.containsAttribute("scheduledTweet"))
+    if (!model.containsAttribute("scheduledTweet")) {
       model.addAttribute("scheduledTweet", new ScheduledTweet());
+    }
     return "index";
   }
-
-  // @RequestMapping(value = "/scheduled-tweet", method = RequestMethod.GET)
-  // public String listScheduledTweet(Model model) {
-  // model.addAttribute("tweets", tweetService.findScheduledTweet());
-  // return "scheduledTweet";
-  // }
 
   @PostMapping("/add-tweet")
   public String addTweet(@ModelAttribute ScheduledTweet scheduledTweet,
@@ -80,6 +70,7 @@ public class TweetController {
     UploadFile uploadFile = tweetService.addMedia(tweetFile);
     scheduledTweet.setUploadFileId(uploadFile.getId());
     redirectAttributes.addFlashAttribute("scheduledTweet", scheduledTweet);
+    redirectAttributes.addFlashAttribute("uploadFile", uploadFile);
     return "redirect:/";
   }
 

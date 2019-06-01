@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import com.dotterbear.file.upload.db.model.UploadFile;
 import com.dotterbear.file.upload.db.service.UploadFileService;
 import com.dotterbear.file.upload.exception.StorageException;
 import com.dotterbear.file.upload.exception.StorageFileNotFoundException;
@@ -26,9 +25,6 @@ import com.dotterbear.file.upload.exception.StorageFileNotFoundException;
 public class StorageServiceImpl implements StorageService {
 
   private final Path rootLocation;
-
-  @Autowired
-  private UploadFileService uploadFileService;
 
   @Autowired
   public StorageServiceImpl(@Value("${com.dotterbear.file.root-dir}") String rootDir) {
@@ -46,7 +42,7 @@ public class StorageServiceImpl implements StorageService {
   }
 
   @Override
-  public UploadFile store(MultipartFile file) {
+  public String store(MultipartFile file) {
     String fileName = StringUtils.cleanPath(file.getOriginalFilename());
     try {
       if (file.isEmpty()) {
@@ -64,7 +60,7 @@ public class StorageServiceImpl implements StorageService {
     } catch (IOException e) {
       throw new StorageException("Failed to store file " + fileName, e);
     }
-    return uploadFileService.save(new UploadFile(fileName));
+    return fileName;
   }
 
   @Override

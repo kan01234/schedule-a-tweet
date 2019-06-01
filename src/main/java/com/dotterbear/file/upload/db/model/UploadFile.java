@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import com.google.cloud.vision.v1.EntityAnnotation;
 
 @Document
 public class UploadFile {
@@ -14,7 +13,7 @@ public class UploadFile {
 
   private String fileName;
 
-  private List<EntityAnnotation> labels;
+  private List<String> tags;
 
   private Date createTime;
 
@@ -56,18 +55,18 @@ public class UploadFile {
     this.amendTIme = amendTIme;
   }
 
-  public List<EntityAnnotation> getLabels() {
-    return labels;
+  public List<String> getTags() {
+    return tags;
   }
 
-  public void setLabels(List<EntityAnnotation> labels) {
-    this.labels = labels;
+  public void setTags(List<String> tags) {
+    this.tags = tags;
   }
 
   @Override
   public String toString() {
-    return "UploadFile [id=" + id + ", fileName=" + fileName + ", labels=" + labels
-        + ", createTime=" + createTime + ", amendTIme=" + amendTIme + "]";
+    return "UploadFile [id=" + id + ", fileName=" + fileName + ", tags=" + tags + ", createTime="
+        + createTime + ", amendTIme=" + amendTIme + "]";
   }
 
 }

@@ -1,6 +1,7 @@
 package com.dotterbear.file.upload.bus.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import com.dotterbear.file.upload.db.model.UploadFile;
 import com.dotterbear.file.upload.db.service.ScheduledTweetService;
 import com.dotterbear.file.upload.db.service.UploadFileService;
 import com.dotterbear.file.upload.service.StorageService;
-import com.dotterbear.file.upload.utils.DateUtils;
 import com.google.protobuf.ByteString;
 
 @Service
@@ -46,9 +46,10 @@ public class TweetService {
   public UploadFile addMedia(MultipartFile multipartFile) throws Exception {
     if (multipartFile == null || multipartFile.isEmpty())
       throw new Exception("file is null or empty");
-    UploadFile uploadFile = storageService.store(multipartFile);
-    uploadFile
-        .setLabels(visionService.getImageLabels(ByteString.copyFrom(multipartFile.getBytes())));
+    UploadFile uploadFile = new UploadFile(storageService.store(multipartFile));
+    uploadFile.setTags(visionService.getWebEntities(ByteString.copyFrom(multipartFile.getBytes()))
+        .stream().map(annotation -> annotation.getDescription()).collect(Collectors.toList()));
+    uploadFileService.save(uploadFile);
     return uploadFile;
   }
 
@@ -72,4 +73,5 @@ public class TweetService {
       return null;
     return storageService.loadAsResource(uploadFile.getFileName());
   }
+
 }
