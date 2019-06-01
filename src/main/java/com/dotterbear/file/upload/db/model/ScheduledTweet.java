@@ -1,6 +1,7 @@
 package com.dotterbear.file.upload.db.model;
 
 import java.util.Date;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -29,6 +30,8 @@ public class ScheduledTweet {
   private long twitterUserId;
 
   private Date createdAt;
+
+  private List<String> tags;
 
   private Date createTime;
 
@@ -137,13 +140,21 @@ public class ScheduledTweet {
     this.createdAt = createdAt;
   }
 
+  public List<String> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<String> tags) {
+    this.tags = tags;
+  }
+
   @Override
   public String toString() {
     return "ScheduledTweet [id=" + id + ", uploadFileId=" + uploadFileId + ", tweetText="
         + tweetText + ", scheduledTime=" + scheduledTime + ", tweetStatus=" + tweetStatus
         + ", twitterStatusId=" + twitterStatusId + ", twitterUserId=" + twitterUserId
-        + ", createdAt=" + createdAt + ", createTime=" + createTime + ", amendTIme=" + amendTIme
-        + "]";
+        + ", createdAt=" + createdAt + ", tags=" + tags + ", createTime=" + createTime
+        + ", amendTIme=" + amendTIme + "]";
   }
 
 }
