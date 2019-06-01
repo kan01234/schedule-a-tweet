@@ -36,21 +36,20 @@ public class TweetService {
   @Autowired
   private VisionService visionService;
 
-  @Autowired
-  private DateUtils dateUtils;
-
-  public boolean addTweet(String tweetText, MultipartFile tweetFile, String tweetDatetime)
-      throws Exception {
-    if (tweetFile == null || tweetFile.isEmpty())
-      scheduledTweetService
-          .save(new ScheduledTweet(tweetText, dateUtils.parseTweetRequestDate(tweetDatetime)));
-    else {
-      UploadFile uploadFile = storageService.store(tweetFile);
-      uploadFile.setLabels(visionService.getImageLabels(ByteString.copyFrom(tweetFile.getBytes())));
-      scheduledTweetService.save(new ScheduledTweet(uploadFile.getId(), tweetText,
-          dateUtils.parseTweetRequestDate(tweetDatetime)));
-    }
+  public boolean addTweet(ScheduledTweet scheduledTweet) throws Exception {
+    if (scheduledTweet == null)
+      throw new Exception("scheduledTweet is null");
+    scheduledTweetService.save(scheduledTweet);
     return true;
+  }
+
+  public UploadFile addMedia(MultipartFile multipartFile) throws Exception {
+    if (multipartFile == null || multipartFile.isEmpty())
+      throw new Exception("file is null or empty");
+    UploadFile uploadFile = storageService.store(multipartFile);
+    uploadFile
+        .setLabels(visionService.getImageLabels(ByteString.copyFrom(multipartFile.getBytes())));
+    return uploadFile;
   }
 
   public List<ScheduledTweet> findScheduledTweets() {

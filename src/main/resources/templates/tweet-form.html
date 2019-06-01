@@ -1,21 +1,28 @@
 <div class="container" th:fragment="tweetForm">
 
 	<h3>Create a tweet</h3>
-	<form method="POST" enctype="multipart/form-data" action="/add-tweet">
+	<form method="POST" enctype="multipart/form-data" action="/add-tweet"
+		th:object="${scheduledTweet}" id="addTweetForm">
 		<div class="form-group">
 			<textarea class="form-control" id="tweetText" name="tweetText"
-				rows="3" placeholder="What's happening?"></textarea>
+				rows="3" placeholder="What's happening?" th:field="*{tweetText}" />
 		</div>
 
-		<div class="form-group" style="margin-bottom: 1em">
-			<label for="tweetFile">Tweet Image</label> <input type="file"
-				id="tweetFile" name="tweetFile">
+		<div class="form-group">
+			<label>Tweet Image</label>
+			<button type="button" class="btn btn-primary" data-toggle="modal"
+				data-target="#fileModal">Upload</button>
+			<div th:if="${scheduledTweet.uploadFileId != null}">
+				<img th:src="${'/images/' + scheduledTweet.uploadFileId}" />
+			</div>
+			<input type="hidden" id="uploadFileId" name="uploadFileId"
+				th:field="*{uploadFileId}">
 		</div>
 
 		<div class="form-group">
 			<label for="tweetDatetime">Post date time</label> <input readonly
 				type="text" class="form-control" id="tweetDatetime"
-				name="tweetDatetime">
+				name="tweetDatetime" th:field="*{scheduledTime}">
 			<div id=tweetDatetimePicker></div>
 		</div>
 
@@ -24,8 +31,44 @@
 		</div>
 	</form>
 
-	<script>
+	<!-- Modal -->
+	<div class="modal fade" id="fileModal" tabindex="-1" role="dialog"
+		aria-labelledby="fileModalTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="fileModalTitle">Upload Media</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form method="POST" enctype="multipart/form-data"
+						action="/add-media" id="addMedia" th:object="${scheduledTweet}">
+						<input type="hidden" name="tweetDatetime" id="tweetDatetime" th:field="*{scheduledTime}">
+						<input type="hidden" name="tweetText" id="tweetText" th:field="*{tweetText}">
+						<div class="form-group" style="margin-bottom: 1em">
+							<label for="tweetFile">Tweet Image</label> <input type="file"
+								id="tweetFile" name="tweetFile">
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary mb-2">Submit</button>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script th:inline="javascript">
 		let tweetDatetimePicker, tweetDatetime;
+		let initDate = /*[[${scheduledTweet.scheduledTime}]]*/'';
+
 		$(function() {
 			tweetDatetimePicker = $('#tweetDatetimePicker');
 			tweetDatetime = $('#tweetDatetime');
@@ -33,12 +76,20 @@
 			tweetDatetimePicker.datetimepicker({
 				inline : true,
 				sideBySide : true,
-				minDate : moment()
+				minDate : initDate == null ? moment() : initDate
 			}).on('dp.change', function(event) {
 				displaySelectedDatetime(tweetDatetimePicker, tweetDatetime);
 			});
 
 			displaySelectedDatetime(tweetDatetimePicker, tweetDatetime);
+
+			$('#fileModal').on('show.bs.modal',function(event) {
+				$('#addMedia #tweetText').val(
+						$('#addTweetForm #tweetText').val());
+				$('#addMedia #tweetDatetime').val(
+						$('#addTweetForm #tweetDatetime').val());
+			});
+
 		});
 		function displaySelectedDatetime(picker, field) {
 			field.val(picker.data("DateTimePicker").viewDate().format(
