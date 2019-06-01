@@ -1,4 +1,5 @@
 <div class="container" th:fragment="tweetForm">
+	<link rel="stylesheet" href="/css/tweet-form.css">
 
 	<h3>Create a tweet</h3>
 	<form method="POST" enctype="multipart/form-data" action="/add-tweet"
@@ -19,7 +20,7 @@
 				th:field="*{uploadFileId}">
 			<div th:if="${uploadFile != null}">
 				<label>Suggested Tags</label>
-				<div>
+				<div class="tags-container">
 					<span class="badge badge-pill badge-light" th:each="tag : ${uploadFile.getTags()}" th:text="${tag}" />
 				</div>
 			</div>
