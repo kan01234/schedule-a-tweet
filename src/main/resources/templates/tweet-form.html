@@ -4,6 +4,7 @@
 	<h3>Create a tweet</h3>
 	<form method="POST" enctype="multipart/form-data" action="/add-tweet"
 		th:object="${scheduledTweet}" id="addTweetForm">
+
 		<div class="form-group">
 			<textarea class="form-control" id="tweetText" name="tweetText"
 				rows="3" placeholder="What's happening?" th:field="*{tweetText}" />
@@ -20,10 +21,16 @@
 				th:field="*{uploadFileId}">
 			<div th:if="${uploadFile != null}">
 				<label>Suggested Tags</label>
-				<div class="tags-container">
-					<span class="badge badge-pill badge-light" th:each="tag : ${uploadFile.getTags()}" th:text="${tag}" />
+				<div id="suggestedTags" class="tags-container">
+					<span class="badge badge-pill badge-light"
+						th:each="tag : ${uploadFile.getTags()}" th:text="${tag}" />
 				</div>
 			</div>
+		</div>
+
+		<div class="form-group">
+			<label>Tags</label>
+			<div id="tweetTags" class="tags-container"></div>
 		</div>
 
 		<div class="form-group">
@@ -38,7 +45,6 @@
 		</div>
 	</form>
 
-	<!-- Modal -->
 	<div class="modal fade" id="fileModal" tabindex="-1" role="dialog"
 		aria-labelledby="fileModalTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
@@ -53,8 +59,9 @@
 				<div class="modal-body">
 					<form method="POST" enctype="multipart/form-data"
 						action="/add-media" id="addMedia" th:object="${scheduledTweet}">
-						<input type="hidden" name="tweetDatetime" id="tweetDatetime" th:field="*{scheduledTime}">
-						<input type="hidden" name="tweetText" id="tweetText" th:field="*{tweetText}">
+						<input type="hidden" name="tweetDatetime" id="tweetDatetime"
+							th:field="*{scheduledTime}"> <input type="hidden"
+							name="tweetText" id="tweetText" th:field="*{tweetText}">
 						<div class="form-group" style="margin-bottom: 1em">
 							<label for="tweetFile">Tweet Image</label> <input type="file"
 								id="tweetFile" name="tweetFile">
@@ -71,10 +78,12 @@
 	<script th:inline="javascript">
 		let tweetDatetimePicker, tweetDatetime;
 		let initDate = /*[[${scheduledTweet.scheduledTime}]]*/'';
+		let tweetTagsContainer, tweetTags = new Set();
 
 		$(function() {
 			tweetDatetimePicker = $('#tweetDatetimePicker');
 			tweetDatetime = $('#tweetDatetime');
+			tweetTagsContainer = $('#tweetTags');
 
 			tweetDatetimePicker.datetimepicker({
 				inline : true,
@@ -86,16 +95,49 @@
 
 			displaySelectedDatetime(tweetDatetimePicker, tweetDatetime);
 
-			$('#fileModal').on('show.bs.modal',function(event) {
-				$('#addMedia #tweetText').val(
-						$('#addTweetForm #tweetText').val());
-				$('#addMedia #tweetDatetime').val(
-						$('#addTweetForm #tweetDatetime').val());
+			$('#fileModal').on(
+					'show.bs.modal',
+					function(event) {
+						$('#addMedia #tweetText').val(
+								$('#addTweetForm #tweetText').val());
+						$('#addMedia #tweetDatetime').val(
+								$('#addTweetForm #tweetDatetime').val());
+					});
+
+			$('#suggestedTags .badge').on('click', function(event) {
+				addTag($(event.target).text());
+			});
+
+			$('#addTweetForm').one('submit', function(event) {
+				event.preventDefault();
+				let form = $(event.target);
+				for(let tag of tweetTags.keys()) {
+					form.append($('<input>')
+							.attr('type', 'hidden')
+							.attr('name', 'tags')
+							.attr('id', 'tags')
+							.val(tag));
+				}
+				form.submit();
 			});
 		});
+
 		function displaySelectedDatetime(picker, field) {
 			field.val(picker.data("DateTimePicker").viewDate().format(
 					'YYYY-MM-DDTHH:mmZ'));
+		}
+
+		function addTag(input) {
+			input = input.trim();
+			if (!tweetTags.has(input)) {
+				tweetTags.add(input);
+				tweetTagsContainer.append(createTagEle(input));
+			}
+		}
+
+		function createTagEle(tag) {
+			let tagEle = document.createElement('span');
+			return $(tagEle).addClass('badge badge-pill').html(tag)
 		}
 	</script>
 </div>
