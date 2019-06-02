@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8
 # VOLUME /tmp
 ARG JASYPT_ENCRYTOR_PASSWORD
 ADD target/schedule-a-tweet-0.0.1-SNAPSHOT.jar app.jar
