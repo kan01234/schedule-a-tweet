@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: prod
 mongodb:
   db: tweet-dev
   host: localhost
@@ -43,7 +43,7 @@ spring:
   profiles: prod
 
 mongodb:
-  host: ENC(SeLWtndMeKV5eeLPiz+Qy0Zs5QLTCriQ)
+  host: ENC(4t5WDUN3H71ZY0FFOrpZMonRoImMoPDa)
 
 server:
   port: 80
