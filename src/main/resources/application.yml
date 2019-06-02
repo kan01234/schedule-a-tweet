@@ -1,33 +1,14 @@
 spring:
   profiles:
     active: dev
-  thymeleaf:
-    prefix: file:src/main/resources/templates/
-    cache: false
-  resources:
-    static-locations: file:src/main/resources/static/
-    cache.period: 0
-
-logging.level:
-  org.springframework.web: DEBUG
-  com.dotterbear: DEBUG
-
-#server:
-#  port: 8443
-#  ssl:
-#    key-store: keystore.p12
-#    key-store-password: password
-#    keyStoreType: PKCS12
-#    keyAlias: tomcat
-
 mongodb:
-  db: tweet-${spring.profiles.active}
+  db: tweet-dev
   host: localhost
   port: 27017
   auth:
     username: user
     password: pass
-    db: tweet-${spring.profiles.active}
+    db: tweet-dev
 
 com:
   dotterbear:
@@ -44,3 +25,21 @@ com:
     file:
       root-dir: upload-dir
       file-name-format: yyyy-MM-dd'T'hh:mm:ss.SSS'Z'
+---
+spring:
+  profiles: dev
+  thymeleaf:
+    prefix: file:src/main/resources/templates/
+    cache: false
+  resources:
+    static-locations: file:src/main/resources/static/
+    cache.period: 0
+
+logging.level:
+  org.springframework.web: DEBUG
+  com.dotterbear: DEBUG
+---
+spring:
+  profiles: prod
+server:
+  port: 80
