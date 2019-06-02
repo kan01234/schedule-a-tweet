@@ -50,8 +50,8 @@ public class TweetService {
     if (multipartFile == null || multipartFile.isEmpty())
       throw new Exception("file is null or empty");
     UploadFile uploadFile = new UploadFile(storageService.store(multipartFile));
-    uploadFile.setTags(visionService.getWebEntities(ByteString.copyFrom(multipartFile.getBytes()))
-        .stream().map(annotation -> annotation.getDescription()).collect(Collectors.toList()));
+//    uploadFile.setTags(visionService.getWebEntities(ByteString.copyFrom(multipartFile.getBytes()))
+//        .stream().map(annotation -> annotation.getDescription()).collect(Collectors.toList()));
     uploadFileService.save(uploadFile);
     return uploadFile;
   }
