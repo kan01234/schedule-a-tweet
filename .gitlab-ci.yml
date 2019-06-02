@@ -1,13 +1,20 @@
 image: docker:stable
 
 stages:
+  - db-image
   - jar
   - image
-  - db-image
   
 variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_DRIVER: overlay2
+
+services:
+  - docker:dind
+
+before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker info
 
 build-jar:
   stage: jar
@@ -21,20 +28,12 @@ build-image:
   stage: image
   dependencies:
     - build-jar
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker info
   script:
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE
 
 build-db-image:
   stage: db-image
-  before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker info
   script:
     - docker build -t $CI_REGISTRY_IMAGE/db ./docker/db
     - docker push $CI_REGISTRY_IMAGE/db:latest
