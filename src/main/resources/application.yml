@@ -41,5 +41,9 @@ logging.level:
 ---
 spring:
   profiles: prod
+
+mongodb:
+  host: ENC(SeLWtndMeKV5eeLPiz+Qy0Zs5QLTCriQ)
+
 server:
   port: 80
