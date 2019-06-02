@@ -1,8 +1,9 @@
 stages:
   - jar
   - image
+  - db-image
 
-build_jar:
+build-jar:
   stage: jar
   image: maven:latest
   artifacts:
@@ -10,14 +11,16 @@ build_jar:
   script:
     - mvn clean package -DskipTests=true
 
-build_image:
+build-image:
   stage: image
+  
   image: docker:stable
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
+  
   dependencies:
-    - build_jar
+    - build-jar
   services:
     - docker:dind
   before_script:
@@ -26,3 +29,16 @@ build_image:
   script:
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE
+
+build-db-image:
+  stage: db-image
+  image: docker:stable
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker info
+  script:
+    - docker build -t $CI_REGISTRY_IMAGE/db ./docker/db
+    - docker push $CI_REGISTRY_IMAGE/db:latest
