@@ -1,7 +1,13 @@
+image: docker:stable
+
 stages:
   - jar
   - image
   - db-image
+  
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
 
 build-jar:
   stage: jar
@@ -13,12 +19,6 @@ build-jar:
 
 build-image:
   stage: image
-  
-  image: docker:stable
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-  
   dependencies:
     - build-jar
   services:
@@ -32,10 +32,6 @@ build-image:
 
 build-db-image:
   stage: db-image
-  image: docker:stable
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker info
