@@ -12,3 +12,6 @@
 .tags-container .badge:nth-child(odd) {
 	background: #f8f9fa;
 }
+img {
+	width: 100%;
+}
