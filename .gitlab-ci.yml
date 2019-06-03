@@ -1,7 +1,7 @@
 stages:
   - db-image
   - jar
-  - image
+#  - image
 
 build-jar:
   stage: jar
@@ -11,22 +11,22 @@ build-jar:
   script:
     - mvn clean package -DskipTests=true
 
-build-image:
-  stage: image
-  dependencies:
-    - build-jar
-  image: docker:stable
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker info
-  script:
-    - docker build -t $CI_REGISTRY_IMAGE .
-    - docker push $CI_REGISTRY_IMAGE
+#build-image:
+#  stage: image
+#  dependencies:
+#    - build-jar
+#  image: docker:stable
+#  variables:
+#    DOCKER_HOST: tcp://docker:2375/
+#    DOCKER_DRIVER: overlay2
+#  services:
+#    - docker:dind
+#  before_script:
+#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#    - docker info
+#  script:
+#    - docker build -t $CI_REGISTRY_IMAGE .
+#    - docker push $CI_REGISTRY_IMAGE
 
 build-db-image:
   stage: db-image
