@@ -13,7 +13,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=${path-to-service-account.json};
 - [x] add scheduled tweet page
 - [x] posted tweet page
 - [x] call Google vision APIs
-- [ ] create docker file with google service account
+- [x] create docker file with google service account
 - [ ] review UI
 - [ ] better error handling
 
